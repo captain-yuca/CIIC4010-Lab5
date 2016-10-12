@@ -8,8 +8,10 @@ public class MineSweeperBoard {
 	public int yBoardSize;
 	public Random randomGenerator;
 	public int mineQuantity;
+	public int xPosition;
+	public int yPosition;
 	public static final int MINEBOUNDS = 6;
-
+	
 	
 	//Constructor for MineSweeperBoard
 	public MineSweeperBoard(int xSize, int ySize){
@@ -27,13 +29,28 @@ public class MineSweeperBoard {
 		if(this.mineSweeperGameBoard[xPosition][yPosition].getObjectColor().equals(Color.BLACK)){
 			System.out.println("Game Over");
 			return true;
-		}
+		}else {
+			for(int i = this.xBoardSize -1 ; i < this.xBoardSize + 1; i++){
+				for(int j = this.yBoardSize - 1; j < this.yBoardSize +1; j++){
+					if(i == this.xBoardSize || j == this.yBoardSize){
+						
+					}
+				}
+			}
+				
+			}
+		
 		return false;
+		// There is a bomb on the 8 sqaures surrounding the press sqaure
+			
 	}
+	
 	//Method: Return Color of the mine that is on the specified position
 	public Color giveCurrentMineColor(int xPosition, int yPosition){
 		return this.mineSweeperGameBoard[xPosition][yPosition].getObjectColor(); 
 	}
+	
+	
 	//Method: Add the mines in a random fashion to the board
 	public void populateBoard(){
 		System.out.println("Commencing to Populate the Board");
@@ -48,6 +65,7 @@ public class MineSweeperBoard {
 			addMineSweeperObjectToBoard(new MineSweeperObject(), randomXPos, randomYPos);
 			System.out.println(mineSweeperGameBoard[randomXPos][randomYPos]);
 		}
+		
 	}
 	
 	
