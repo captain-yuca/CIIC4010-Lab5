@@ -1,3 +1,4 @@
+package main;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Insets;
@@ -95,7 +96,7 @@ public class MyMouseAdapter extends MouseAdapter {
 			myPanel.repaint();
 			break;
 		case 3:		//Right mouse button
-			//Do nothing
+			
 			break;
 		default:    //Some other button (2 = Middle mouse button, etc.)
 			//Do nothing
