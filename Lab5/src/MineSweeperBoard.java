@@ -28,6 +28,7 @@ public class MineSweeperBoard {
 	public boolean verifyMine(int xPosition, int yPosition){
 		if(this.mineSweeperGameBoard[xPosition][yPosition].getObjectColor().equals(Color.BLACK)){
 			System.out.println("Game Over");
+			// REVEAL WERE ARE ALL THE MINESSSSSSSSS
 			return true;
 		}else {
 			int counterOfMines = 0;
@@ -40,6 +41,15 @@ public class MineSweeperBoard {
 						//counts the number of mines on the radius of the selected sqaure
 						if(this.mineSweeperGameBoard[xPosition][yPosition].getObjectColor().equals(Color.BLACK)){
 							counterOfMines = counterOfMines + 1;
+						}else {
+							//keeps searching for the mine
+							for (int x = this.xPosition; x < xBoardSize; x++){
+								for(int y = this.yPosition; y< yBoardSize; y++){
+									if(this.mineSweeperGameBoard[xPosition][yPosition].getObjectColor().equals(Color.BLACK)){
+										//entonces dice el numero de minas alrededor
+									}
+								}
+							}
 						}
 					}
 				}System.out.println(" the number of mines surrunding it are: " + counterOfMines);
