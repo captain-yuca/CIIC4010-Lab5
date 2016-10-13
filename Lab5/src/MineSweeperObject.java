@@ -33,24 +33,24 @@ public class MineSweeperObject {
 		this.objectColor = objectColor;
 	}
 	
-//	public int getXPosition( int xPosition){
-//		return xPosition;
-//	}
-//	
-//	
-//	public void setXPosition(int xPosition){
-//		this.xPosition = xPosition;						AUN NO SE SI LOS NECESITO
-//	}
-//	
-//	
-//	public int getYPosition(int yPosition){
-//		return yPosition;
-//	}
-//	
-//	
-//	public void setYPosition(int yPosition){
-//		this.yPosition = yPosition;
-//	}
-//	
+	public int getXPosition( int xPosition){
+		return xPosition;
+	}
+	
+	
+	public void setXPosition(int xPosition){
+		this.xPosition = xPosition;						//AUN NO SE SI LOS NECESITO
+	}
+	
+	
+	public int getYPosition(int yPosition){
+		return yPosition;
+	}
+	
+	
+	public void setYPosition(int yPosition){
+		this.yPosition = yPosition;
+	}
+	
 	
 }
