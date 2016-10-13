@@ -11,7 +11,7 @@ public class MineSweeperBoard {
 	public int xPosition;
 	public int yPosition;
 	public static final int MINEBOUNDS = 6;
-
+//cool
 
 	//Constructor for MineSweeperBoard
 	public MineSweeperBoard(int xSize, int ySize){
