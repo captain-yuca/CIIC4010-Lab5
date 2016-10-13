@@ -1,9 +1,10 @@
 package tests;
 
 import static org.junit.Assert.*;
-import main.MineSweeperBoard;
 
 import org.junit.Test;
+
+import mineSweeperObjects.MineSweeperBoard;
 
 public class MineSweeperBoardTester {
 

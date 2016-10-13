@@ -24,6 +24,8 @@ public class Main {
 			}
 		});
 	    
+	    restartButton.setPreferredSize(new Dimension(70, 70));
+	    
 	    myFrame.add(myPanel);
 		myFrame.add(restartButton);
 		

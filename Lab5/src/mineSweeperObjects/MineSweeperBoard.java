@@ -1,4 +1,4 @@
-package main;
+package mineSweeperObjects;
 import java.awt.Color;
 import java.util.Arrays;
 import java.util.Random;
@@ -26,7 +26,7 @@ public class MineSweeperBoard {
 	}
 	//Method: Check if there is a mine and if there is, print Game Over and return true
 	public boolean verifyMine(int xPosition, int yPosition){
-		if(this.mineSweeperGameBoard[xPosition][yPosition].getObjectColor().equals(Color.BLACK)){
+		if(this.mineSweeperGameBoard[xPosition][yPosition].getClass().toString().equals("Mine")){
 			System.out.println("Game Over");
 			return true;
 		}
@@ -36,6 +36,7 @@ public class MineSweeperBoard {
 	public Color giveCurrentMineColor(int xPosition, int yPosition){
 		return this.mineSweeperGameBoard[xPosition][yPosition].getObjectColor(); 
 	}
+	//Method: Makes a new MineSweeperGameBoard
 	public void clearBoard(){
 		mineSweeperGameBoard = new MineSweeperObject[this.xBoardSize][this.yBoardSize];
 	}
@@ -47,10 +48,10 @@ public class MineSweeperBoard {
 		int randomXPos;
 		int randomYPos;
 		for(int i = 0; i<this.mineQuantity;i++){
-			randomXPos = Math.max(randomGenerator.nextInt(this.xBoardSize), 1);
-			randomYPos = Math.max(randomGenerator.nextInt(this.yBoardSize), 1);
+			randomXPos = Math.max(randomGenerator.nextInt(this.xBoardSize-1), 1); // -1 so it doesn't go offbounds
+			randomYPos = Math.max(randomGenerator.nextInt(this.yBoardSize-1), 1);
 			System.out.println("Mine" + i + ": " + randomXPos +", " + randomYPos);
-			addMineSweeperObjectToBoard(new MineSweeperObject(), randomXPos, randomYPos);
+			addMineSweeperObjectToBoard(new Mine(), randomXPos, randomYPos);
 			System.out.println(mineSweeperGameBoard[randomXPos][randomYPos]);
 		}
 	}

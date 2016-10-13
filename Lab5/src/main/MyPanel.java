@@ -9,6 +9,8 @@ import java.util.Random;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import mineSweeperObjects.MineSweeperBoard;
+
 public class MyPanel extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 3426940946811133635L;
 	private static final int GRID_X = 25;
@@ -82,6 +84,7 @@ public class MyPanel extends JPanel implements ActionListener{
 					Color c = colorArray[x][y];
 					g.setColor(c);
 					g.fillRect(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);
+
 				}
 			}
 		}

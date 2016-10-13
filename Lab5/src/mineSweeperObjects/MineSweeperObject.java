@@ -1,4 +1,4 @@
-package main;
+package mineSweeperObjects;
 import java.awt.Color;
 
 
