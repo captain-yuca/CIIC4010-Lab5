@@ -9,10 +9,13 @@ public class MineSweeperObject{
 	private Color objectColor;
 	private int proximintyNumber;
 	private JLabel text;
+	private String labelString;
 	//Currently the MineSweeperObject works as a mine
 	public MineSweeperObject(){
 		this.objectColor=Color.white;
 		this.proximintyNumber = 0;
+		this.setLabel();
+		
 		
 	}
 
@@ -50,12 +53,13 @@ public class MineSweeperObject{
 		
 	}
 	
-	public void setLabel (){
-		
-		 
+	public void setLabel(){
+		this.labelString = addStringToBoard();
 	}
-//	
-	
+	public String getLabel(){
+		return Integer.toString(this.proximintyNumber);
+	}
+		
 //Para q se vea el string en la pantalla debes crear un label a cada mineSweeperObject en blanco y luego q se cliquee entonces se muestra el string
 }
 //tengo q hacer un for loop que vaya dentro de cada selda y le coloque el label en base a su strignToProxNumber, lo va a colocar blanco

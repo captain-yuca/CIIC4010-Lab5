@@ -1,11 +1,13 @@
 package main;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import mineSweeperObjects.MineSweeperBoard;
@@ -23,6 +25,10 @@ public class MyPanel extends JPanel implements ActionListener{
 	public int mouseDownGridY = 0;
 	public Color[][] colorArray = new Color[TOTAL_COLUMNS][TOTAL_ROWS];
 	public MineSweeperBoard mineSweeperBoard = new MineSweeperBoard(TOTAL_COLUMNS, TOTAL_ROWS); //Constructing a new Game Board
+	public JPanel label = new JPanel();
+
+
+
 	public MyPanel() {   //This is the constructor... this code runs first to initialize
 		if (INNER_CELL_SIZE + (new Random()).nextInt(1) < 1) {	//Use of "random" to prevent unwanted Eclipse warning
 			throw new RuntimeException("INNER_CELL_SIZE must be positive!");
@@ -36,11 +42,13 @@ public class MyPanel extends JPanel implements ActionListener{
 		for (int x = 0; x < TOTAL_COLUMNS; x++) {   //The rest of the grid
 			for (int y = 0; y < TOTAL_ROWS; y++) {
 				colorArray[x][y] = Color.WHITE;
+
 			}
 		}
+		this.paintNumbers();
 	}
 
-	
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
@@ -56,6 +64,8 @@ public class MyPanel extends JPanel implements ActionListener{
 		//Paint the background
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(x1, y1, width + 1, height + 1);
+		//put a string on the panel
+
 
 		//Draw the grid minus the bottom row (which has only one cell)
 		//By default, the grid will be 10x10 (see above: TOTAL_COLUMNS and TOTAL_ROWS) 
@@ -70,12 +80,12 @@ public class MyPanel extends JPanel implements ActionListener{
 		//Paint cell colors
 		for (int x = 0; x < TOTAL_COLUMNS; x++) {
 			for (int y = 0; y < TOTAL_ROWS; y++) {
-				 
-					Color c = colorArray[x][y];
-					g.setColor(c);
-					g.fillRect(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);
 
-				
+				Color c = colorArray[x][y];
+				g.setColor(c);
+				g.fillRect(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);
+
+
 			}
 		}
 	}
@@ -139,6 +149,29 @@ public class MyPanel extends JPanel implements ActionListener{
 		this.repaint();
 
 	}
+	public void paintNumbers(){
+		this.setLayout(null);
+		for(int x=0; x < TOTAL_COLUMNS; x++ ){
+			for(int y = 0; y< TOTAL_ROWS; y++){
+				if(this.mineSweeperBoard.mineSweeperGameBoard[x][y].getProximintyNumber()>0){
+					JLabel label = new JLabel(this.mineSweeperBoard.mineSweeperGameBoard[x][y].getLabel());
+					this.add(label);
+					label.setSize(30,30);
+					label.setLocation(30 + x*30, 25 + y*30);
+					label.setFont(new Font(label.getName(),Font.PLAIN,30));
+					label.setForeground(Color.white);
+				}
+			}
+		}
+
+
+
+
+
+
+	}
+
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub

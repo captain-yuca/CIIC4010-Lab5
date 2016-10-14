@@ -12,6 +12,7 @@ public class MineSweeperBoard {
 	public Random randomGenerator;
 	public int mineQuantity;
 	public int getProxNumber;
+	private String labelString;
 	public static final int MINEBOUNDS = 6;
 
 
@@ -150,14 +151,14 @@ public class MineSweeperBoard {
 		for (int i = 0; i < this.xBoardSize; i++) {
 			for (int j = 0; j < this.yBoardSize; j++) {
 				String proxNumString =  this.mineSweeperGameBoard[i][j].addStringToBoard();
-				//System.out.println("The number of mines pero coordinates is: ( " " ,+ i " " +j" "  );
+				//System.out.println("The number of mines pero coordinates is: ( " " ,+ i " " +j" );
 			}
 		}
 	}
-	public void StringAddingToSquares(){
+	public void StringAddingToSquares(){										 //sets the label of the strings
 		for (int i = 0; i < this.xBoardSize; i++) {
 			for (int j = 0; j < this.yBoardSize; j++) {
-
+				this.mineSweeperGameBoard[i][j].getLabel();
 			}
 		}
 	}	

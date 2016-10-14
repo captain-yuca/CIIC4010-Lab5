@@ -5,12 +5,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import mineSweeperObjects.MineSweeperObject;
+
 public class Main {
 	public static void main(String[] args) {
 		JFrame myFrame = new JFrame("Color Grid");
 		JButton restartButton = new JButton("Restart");
-		JPanel panel = new JPanel(); // defini q voy a usar laebels
-		JLabel label = new JLabel(); //para a~adir los labels
 		myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		myFrame.setLocation(400, 150);
 		myFrame.setSize(400, 700);
@@ -29,12 +29,19 @@ public class Main {
 		myFrame.add(myPanel);
 		myFrame.add(restartButton);
 
-
-
 		MyMouseAdapter myMouseAdapter = new MyMouseAdapter();
 		myFrame.addMouseListener(myMouseAdapter);
 
 		myFrame.setVisible(true);
+
+		//Experimento para imprimir cosas en el Board
+		JPanel panel = new JPanel();
+		JLabel jlabel = new JLabel("");
+		//antes de esto tiene q ir el loop q recorre por las posiciones
 		
-					}
-				}
+		//panel.setLocation(this.xPosition, this.yPosition);
+		panel.add(jlabel);
+		myFrame.add(panel);
+		panel.setVisible(true);
+	}
+}
