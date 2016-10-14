@@ -1,11 +1,12 @@
 package mineSweeperObjects;
+
 import java.awt.Color;
-import java.util.Arrays;
 import java.util.Random;
 
 public class MineSweeperBoard {
 
 	public MineSweeperObject[][] mineSweeperGameBoard;
+	public Flag[][] flagBoard;
 	public int xBoardSize;
 	public int yBoardSize;
 	public Random randomGenerator;
@@ -18,11 +19,14 @@ public class MineSweeperBoard {
 		this.xBoardSize = xSize;
 		this.yBoardSize = ySize;
 		this.mineSweeperGameBoard = new MineSweeperObject[xSize][ySize];
+		this.flagBoard = new Flag[xSize][ySize];
 		this.fillBoard();
-		this.populateBoard();
+		this.populateFlagBoard();
+		this.populateGameBoard();
 	}
-	//Method: Add an MineSweeperObject to the board
-	public void addMineSweeperObjectToBoard(MineSweeperObject msObj, int xPosition, int yPosition){
+
+	// Method: Add an MineSweeperObject to the board
+	public void addMineSweeperObjectToBoard(MineSweeperObject msObj, int xPosition, int yPosition) {
 		this.mineSweeperGameBoard[xPosition][yPosition] = msObj;
 	}
 	public void fillBoard(){
@@ -37,21 +41,23 @@ public class MineSweeperBoard {
 		int counterOfMines = 0;											// comienzo sin bombas
 		for(int i = xPosition - 1 ; i < xPosition + 2; i++){
 			for(int j = yPosition - 1; j < yPosition + 2; j++){      //for loops para recocorrer los 8 vecinos
-				
+
 				if(i == xPosition && j == yPosition){
 					//Do nothing
-					
+
+
 				}
-				else if(i<1 || j<1 || i>=this.xBoardSize || j>=this.yBoardSize-1){
+				else if(i<0 || j<0 || i>=this.xBoardSize || j>=this.yBoardSize){
 					//Do nothing
-					
+
 				}
 				else if(this.mineSweeperGameBoard[i][j].getObjectColor().equals(Color.BLACK)){
 					counterOfMines++;
-					
+
+
 				}
 				else{
-					
+					//Do Nothing
 				}
 			}
 		}
@@ -59,55 +65,98 @@ public class MineSweeperBoard {
 			this.mineSweeperGameBoard[xPosition][yPosition] = new ProximityNumber(counterOfMines);
 			System.out.println("Counter of Mines in ("+xPosition+", "+yPosition + ") = "  + counterOfMines);
 		}
-	
+
 	}
-	//Method: Check if there is a mine and if there is, print Game Over and return true
-	public boolean verifyMine(int xPosition, int yPosition){
-		if(this.mineSweeperGameBoard[xPosition][yPosition].getClass().toString().equals("Mine")){
+
+	// Method: Check if there is a mine and if there is, print Game Over and
+	// return true
+	public boolean verifyMine(int xPosition, int yPosition) {
+		if (this.mineSweeperGameBoard[xPosition][yPosition].getObjectColor().equals(Color.BLACK)) {
 			System.out.println("Game Over");
 			return true;
 		}
 		return false;
 	}
 
-	//Method: Return Color of the mine that is on the specified position
-	public Color giveCurrentMineColor(int xPosition, int yPosition){
-		return this.mineSweeperGameBoard[xPosition][yPosition].getObjectColor(); 
+	public boolean verifyFlagUp(int xPosition, int yPosition) {
+		if (this.flagBoard[xPosition][yPosition].getFlagUp() == true) {
+			return true;
+		}
+		return false;
 	}
-	//Method: Makes a new MineSweeperGameBoard
-	public void clearBoard(){
-		mineSweeperGameBoard = new MineSweeperObject[this.xBoardSize][this.yBoardSize];
-		this.fillBoard();
-		this.populateBoard();
+
+
+
+	public void setFlagUp(int xPosition, int yPosition, boolean state) {
+		this.flagBoard[xPosition][yPosition].setFlagUp(state);
 	}
-	//Method: Add the mines in a random fashion to the board
-	public void populateBoard(){
+
+	public MineSweeperObject getMineSweeperObjectFromArray(int xPosition, int yPosition) {
+		return this.mineSweeperGameBoard[xPosition][yPosition];
+	}
+	// Method: Return Color of the mine that is on the specified position
+	public Color getCurrentObjectColor(int xPosition, int yPosition) {
+		return this.mineSweeperGameBoard[xPosition][yPosition].getObjectColor();
+	}
+
+	// Method: Add the mines in a random fashion to the board
+	public void populateGameBoard() {
 		System.out.println("Commencing to Populate the Board");
 		randomGenerator = new Random(); 
-		this.mineQuantity = Math.max(randomGenerator.nextInt(MINEBOUNDS+1), 1);
-	
+		//this.mineQuantity = Math.max(randomGenerator.nextInt(MINEBOUNDS+1), 1);
+		this.mineQuantity = 1;
 		int randomXPos;
 		int randomYPos;
-		for(int i = 0; i<this.mineQuantity;i++){
-			randomXPos = Math.max(randomGenerator.nextInt(this.xBoardSize-1), 1); // -1 so it doesn't go offbounds
-			randomYPos = Math.max(randomGenerator.nextInt(this.yBoardSize-1), 1);
-			System.out.println("Mine" + i + ": " + randomXPos +", " + randomYPos);
+		for (int i = 0; i < this.mineQuantity; i++) {
+			randomXPos = randomGenerator.nextInt(this.xBoardSize - 1); // -1
+			// so
+			// it
+			// doesn't
+			// go
+			// offbounds
+			randomYPos = randomGenerator.nextInt(this.yBoardSize - 1);
+			System.out.println("Mine" + i + ": " + (randomXPos) + ", " + (randomYPos));
 			addMineSweeperObjectToBoard(new Mine(), randomXPos, randomYPos);
 			System.out.println(mineSweeperGameBoard[randomXPos][randomYPos]);
 		}
-		for(int x = 1; x < xBoardSize; x++ ){
-			for(int y = 1; y<yBoardSize; y++){
+		for(int x = 0; x < xBoardSize; x++ ){
+			for(int y = 0; y<yBoardSize; y++){
 				this.proximityNumber(x, y);
 
 			}
 		}
 	}
 
-	public void restartBoard(){
-		this.clearBoard();
-		this.populateBoard();
+
+
+
+	// Method: Makes a new MineSweeperGameBoard
+	public void clearGameBoard() {
+		mineSweeperGameBoard = new MineSweeperObject[this.xBoardSize][this.yBoardSize];
+	}
+
+	public void clearFlagBoard() {
+		flagBoard = new Flag[this.xBoardSize][this.yBoardSize];
+
 	}
 
 
+
+
+	public void populateFlagBoard() {
+		for (int i = 0; i < this.xBoardSize; i++) {
+			for (int j = 0; j < this.yBoardSize; j++) {
+				this.flagBoard[i][j] = new Flag();
+			}
+		}
+	}
+
+	public void restartBoard() {
+		this.clearGameBoard();
+		this.clearFlagBoard();
+		this.fillBoard();
+		this.populateGameBoard();
+		this.populateFlagBoard();
+	}
 
 }
