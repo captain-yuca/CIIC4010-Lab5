@@ -11,8 +11,8 @@ public class MineSweeperBoardTester {
 	@Test
 	public void restartBoardTest() {
 		MineSweeperBoard m = new MineSweeperBoard(9, 9);
-		m.clearBoard();
-		m.populateBoard();
+		m.clearGameBoard();
+		m.populateGameBoard();
 		assertTrue(true);
 	}
 
