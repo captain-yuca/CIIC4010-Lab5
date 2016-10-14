@@ -8,7 +8,7 @@ public class MineSweeperObject {
 
 	//Currently the MineSweeperObject works as a mine
 	MineSweeperObject (){
-		this.objectColor=Color.BLACK;
+		this.objectColor=Color.white;
 	}
 
 	//Verifies if the Object has been clicked
