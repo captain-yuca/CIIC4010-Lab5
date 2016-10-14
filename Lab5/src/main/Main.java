@@ -14,22 +14,22 @@ public class Main {
 		myFrame.setSize(400, 700);
 
 		MyPanel myPanel = new MyPanel();		
-	    myFrame.setLayout( new BoxLayout(myFrame.getContentPane(), BoxLayout.Y_AXIS) );      // set the layout manager
-	    
-	    
-	    
-	    restartButton.addActionListener(new ActionListener(){
+		myFrame.setLayout( new BoxLayout(myFrame.getContentPane(), BoxLayout.Y_AXIS) );      // set the layout manager
+
+
+
+		restartButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event){
-				myPanel.mineSweeperBoard.restartBoard();
+				myPanel.restartGame();
 			}
 		});
-	    
-	    restartButton.setPreferredSize(new Dimension(70, 70));
-	    
-	    myFrame.add(myPanel);
+
+		restartButton.setPreferredSize(new Dimension(70, 70));
+
+		myFrame.add(myPanel);
 		myFrame.add(restartButton);
-		
-		   
+
+
 
 		MyMouseAdapter myMouseAdapter = new MyMouseAdapter();
 		myFrame.addMouseListener(myMouseAdapter);

@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import mineSweeperObjects.MineSweeperBoard;
@@ -16,8 +15,8 @@ public class MyPanel extends JPanel implements ActionListener{
 	private static final int GRID_X = 25;
 	private static final int GRID_Y = 25;
 	private static final int INNER_CELL_SIZE = 29;
-	private static final int TOTAL_COLUMNS = 10;
-	private static final int TOTAL_ROWS = 11;   //Last row has only one cell
+	private static final int TOTAL_COLUMNS = 9;
+	private static final int TOTAL_ROWS = 9;   //Last row has only one cell
 	public int x = -1;
 	public int y = -1;
 	public int mouseDownGridX = 0;
@@ -34,19 +33,13 @@ public class MyPanel extends JPanel implements ActionListener{
 		if (TOTAL_ROWS + (new Random()).nextInt(1) < 3) {	//Use of "random" to prevent unwanted Eclipse warning
 			throw new RuntimeException("TOTAL_ROWS must be at least 3!");
 		}
-		for (int x = 0; x < TOTAL_COLUMNS; x++) {   //Top row
-			colorArray[x][0] = Color.LIGHT_GRAY;
-		}
-		for (int y = 0; y < TOTAL_ROWS; y++) {   //Left column
-			colorArray[0][y] = Color.LIGHT_GRAY;
-		}
-		for (int x = 1; x < TOTAL_COLUMNS; x++) {   //The rest of the grid
-			for (int y = 1; y < TOTAL_ROWS; y++) {
+		for (int x = 0; x < TOTAL_COLUMNS; x++) {   //The rest of the grid
+			for (int y = 0; y < TOTAL_ROWS; y++) {
 				colorArray[x][y] = Color.WHITE;
 			}
 		}
-		
-		
+
+
 	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -67,25 +60,22 @@ public class MyPanel extends JPanel implements ActionListener{
 		//Draw the grid minus the bottom row (which has only one cell)
 		//By default, the grid will be 10x10 (see above: TOTAL_COLUMNS and TOTAL_ROWS) 
 		g.setColor(Color.BLACK);
-		for (int y = 0; y <= TOTAL_ROWS - 1; y++) {
+		for (int y = 0; y <= TOTAL_ROWS; y++) {
 			g.drawLine(x1 + GRID_X, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)), x1 + GRID_X + ((INNER_CELL_SIZE + 1) * TOTAL_COLUMNS), y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)));
 		}
 		for (int x = 0; x <= TOTAL_COLUMNS; x++) {
-			g.drawLine(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)), y1 + GRID_Y, x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)), y1 + GRID_Y + ((INNER_CELL_SIZE + 1) * (TOTAL_ROWS - 1)));
+			g.drawLine(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)), y1 + GRID_Y, x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)), y1 + GRID_Y + ((INNER_CELL_SIZE + 1) * (TOTAL_ROWS)));
 		}
-
-		//Draw an additional cell at the bottom left
-		g.drawRect(x1 + GRID_X, y1 + GRID_Y + ((INNER_CELL_SIZE + 1) * (TOTAL_ROWS - 1)), INNER_CELL_SIZE + 1, INNER_CELL_SIZE + 1);
 
 		//Paint cell colors
 		for (int x = 0; x < TOTAL_COLUMNS; x++) {
 			for (int y = 0; y < TOTAL_ROWS; y++) {
-				if ((x == 0) || (y != TOTAL_ROWS - 1)) {
+				 
 					Color c = colorArray[x][y];
 					g.setColor(c);
 					g.fillRect(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);
 
-				}
+				
 			}
 		}
 	}
@@ -109,7 +99,7 @@ public class MyPanel extends JPanel implements ActionListener{
 		if (x == 0 && y == TOTAL_ROWS - 1) {    //The lower left extra cell
 			return x;
 		}
-		if (x < 0 || x > TOTAL_COLUMNS - 1 || y < 0 || y > TOTAL_ROWS - 2) {   //Outside the rest of the grid
+		if (x < 0 || x > TOTAL_COLUMNS - 1 || y < 0 || y > TOTAL_ROWS - 1) {   //Outside the rest of the grid
 			return -1;
 		}
 		return x;
@@ -134,14 +124,24 @@ public class MyPanel extends JPanel implements ActionListener{
 		if (x == 0 && y == TOTAL_ROWS - 1) {    //The lower left extra cell
 			return y;
 		}
-		if (x < 0 || x > TOTAL_COLUMNS - 1 || y < 0 || y > TOTAL_ROWS - 2) {   //Outside the rest of the grid
+		if (x < 0 || x > TOTAL_COLUMNS - 1 || y < 0 || y > TOTAL_ROWS-1) {   //Outside the rest of the grid
 			return -1;
 		}
 		return y;
 	}
+	public void restartGame(){
+		this.mineSweeperBoard.restartBoard();
+		for (int x = 0; x < TOTAL_COLUMNS; x++) {   //The rest of the grid
+			for (int y = 0; y < TOTAL_ROWS; y++) {
+				this.colorArray[x][y] = Color.WHITE;
+			}
+		}
+		this.repaint();
+
+	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
