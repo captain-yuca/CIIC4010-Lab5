@@ -1,11 +1,13 @@
 package main;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import mineSweeperObjects.MineSweeperBoard;
@@ -23,6 +25,16 @@ public class MyPanel extends JPanel implements ActionListener{
 	public int mouseDownGridY = 0;
 	public Color[][] colorArray = new Color[TOTAL_COLUMNS][TOTAL_ROWS];
 	public MineSweeperBoard mineSweeperBoard = new MineSweeperBoard(TOTAL_COLUMNS, TOTAL_ROWS); //Constructing a new Game Board
+	public JLabel demoLabel = new JLabel("Hello");
+
+	/*+----------------------------------------------------------------------
+	 ||
+	 ||
+	 ||	 Constructors
+	 ||
+	 ||
+	 ++-----------------------------------------------------------------------*/
+
 	public MyPanel() {   //This is the constructor... this code runs first to initialize
 		if (INNER_CELL_SIZE + (new Random()).nextInt(1) < 1) {	//Use of "random" to prevent unwanted Eclipse warning
 			throw new RuntimeException("INNER_CELL_SIZE must be positive!");
@@ -38,9 +50,17 @@ public class MyPanel extends JPanel implements ActionListener{
 				colorArray[x][y] = Color.WHITE;
 			}
 		}
-
-
+		
 	}
+
+	/*+----------------------------------------------------------------------
+	 ||
+	 ||
+	 ||	 Methods
+	 ||
+	 ||
+	 ++-----------------------------------------------------------------------*/
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
@@ -70,12 +90,12 @@ public class MyPanel extends JPanel implements ActionListener{
 		//Paint cell colors
 		for (int x = 0; x < TOTAL_COLUMNS; x++) {
 			for (int y = 0; y < TOTAL_ROWS; y++) {
-				 
-					Color c = colorArray[x][y];
-					g.setColor(c);
-					g.fillRect(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);
 
-				
+				Color c = colorArray[x][y];
+				g.setColor(c);
+				g.fillRect(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);
+
+
 			}
 		}
 	}
@@ -129,6 +149,8 @@ public class MyPanel extends JPanel implements ActionListener{
 		}
 		return y;
 	}
+
+	//Method: Restarts the whole game
 	public void restartGame(){
 		this.mineSweeperBoard.restartBoard();
 		for (int x = 0; x < TOTAL_COLUMNS; x++) {   //The rest of the grid
@@ -137,6 +159,64 @@ public class MyPanel extends JPanel implements ActionListener{
 			}
 		}
 		this.repaint();
+
+	}
+
+	//Method: Reveals neighbor squares from the specified position
+	public void revealSquares(int xPosition, int yPosition){
+		if(xPosition<0||yPosition<0||xPosition>this.mineSweeperBoard.getxBoardSize()||yPosition>this.mineSweeperBoard.getyBoardSize()){
+			//Do nothing
+		}
+		else{
+			this.mineSweeperBoard.setObjectWasClickToTrue(xPosition, yPosition);
+			this.mineSweeperBoard.raiseClickedCounter();
+			this.colorArray[xPosition][yPosition] = Color.GRAY;
+			int[] upSquare ={xPosition, yPosition-1};
+			int[] downSquare={xPosition, yPosition+1};
+			int[] rightSquare={xPosition+1, yPosition};
+			int[] leftSquare={xPosition-1, yPosition};
+
+			if(!(upSquare[1]<0) && this.mineSweeperBoard.getProximityNumber(upSquare[0], upSquare[1])!=-1 && !(this.mineSweeperBoard.verifyIfObjectWasClicked(upSquare[0], upSquare[1]))){
+				if(this.mineSweeperBoard.getProximityNumber(upSquare[0], upSquare[1])==0){
+					revealSquares(upSquare[0], upSquare[1]);
+				}
+				else{
+					this.mineSweeperBoard.setObjectWasClickToTrue(upSquare[0], upSquare[1]);
+					this.mineSweeperBoard.raiseClickedCounter();
+					this.colorArray[upSquare[0]][upSquare[1]] = Color.GRAY;
+				}
+			}
+			if(!(downSquare[1]>=mineSweeperBoard.getyBoardSize()) && this.mineSweeperBoard.getProximityNumber(downSquare[0], downSquare[1])!=-1 && !(this.mineSweeperBoard.verifyIfObjectWasClicked(downSquare[0], downSquare[1]))){
+				if(this.mineSweeperBoard.getProximityNumber(downSquare[0], downSquare[1])==0){
+					revealSquares(downSquare[0], downSquare[1]);
+				}
+				else{
+					this.mineSweeperBoard.setObjectWasClickToTrue(downSquare[0], downSquare[1]);
+					this.mineSweeperBoard.raiseClickedCounter();
+					this.colorArray[downSquare[0]][downSquare[1]] = Color.GRAY;
+				}
+			}
+			if(!(rightSquare[0]>=mineSweeperBoard.getxBoardSize()) && this.mineSweeperBoard.getProximityNumber(rightSquare[0], rightSquare[1])!=-1 && !(this.mineSweeperBoard.verifyIfObjectWasClicked(rightSquare[0], rightSquare[1]))){
+				if(this.mineSweeperBoard.getProximityNumber(rightSquare[0], rightSquare[1])==0){
+					revealSquares(rightSquare[0], rightSquare[1]);
+				}
+				else{
+					this.mineSweeperBoard.setObjectWasClickToTrue(rightSquare[0], rightSquare[1]);
+					this.mineSweeperBoard.raiseClickedCounter();
+					this.colorArray[rightSquare[0]][rightSquare[1]] = Color.GRAY;
+				}
+			}
+			if(!(leftSquare[0]<0) && this.mineSweeperBoard.getProximityNumber(leftSquare[0], leftSquare[1])!=-1 && !(this.mineSweeperBoard.verifyIfObjectWasClicked(leftSquare[0], leftSquare[1]))){
+				if(this.mineSweeperBoard.getProximityNumber(leftSquare[0], leftSquare[1])==0){
+					revealSquares(leftSquare[0], leftSquare[1]);
+				}
+				else{
+					this.mineSweeperBoard.setObjectWasClickToTrue(leftSquare[0], leftSquare[1]);
+					this.mineSweeperBoard.raiseClickedCounter();
+					this.colorArray[leftSquare[0]][leftSquare[1]] = Color.GRAY;
+				}
+			}
+		}
 
 	}
 	@Override

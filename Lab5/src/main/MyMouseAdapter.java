@@ -83,10 +83,25 @@ public class MyMouseAdapter extends MouseAdapter {
 							//On the grid other than on the left column and on the top row:
 
 							//Verify if there is a mine, and if there is, pain the selected square black
+						if(!myPanel.mineSweeperBoard.getGameOver() && !myPanel.mineSweeperBoard.verifyIfWin()){
+
 							if(myPanel.mineSweeperBoard.verifyMine(myPanel.mouseDownGridX, myPanel.mouseDownGridY)){
 								myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = myPanel.mineSweeperBoard.getCurrentObjectColor(myPanel.mouseDownGridX, myPanel.mouseDownGridY);
+								myPanel.mineSweeperBoard.setGameOver(true);
 								myPanel.repaint();
 							}
+							else if(!myPanel.mineSweeperBoard.verifyIfObjectWasClicked(myPanel.mouseDownGridX, myPanel.mouseDownGridY)){
+								//myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = Color.GRAY;
+								//myPanel.mineSweeperBoard.setObjectWasClickToTrue(myPanel.mouseDownGridX, myPanel.mouseDownGridY);
+								myPanel.revealSquares(myPanel.mouseDownGridX, myPanel.mouseDownGridY);
+							}
+							if(myPanel.mineSweeperBoard.verifyIfWin()){
+								System.out.println("You win!");
+							}
+						}
+						else{
+							//Do Nothing
+						}
 						
 					}
 				}
@@ -110,7 +125,8 @@ public class MyMouseAdapter extends MouseAdapter {
 						//Do nothing
 					} else {
 							//On the grid other than on the left column and on the top row:
-							if(!myPanel.mineSweeperBoard.verifyFlagUp(myPanel.mouseDownGridX, myPanel.mouseDownGridY)){
+						if(!myPanel.mineSweeperBoard.verifyIfObjectWasClicked(myPanel.mouseDownGridX, myPanel.mouseDownGridY)){
+							if(!myPanel.mineSweeperBoard.verifyFlagUp(myPanel.mouseDownGridX, myPanel.mouseDownGridY) ){
 								myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = Color.RED;
 								myPanel.mineSweeperBoard.setFlagUp(myPanel.mouseDownGridX,myPanel.mouseDownGridY, true);
 							}
@@ -120,6 +136,7 @@ public class MyMouseAdapter extends MouseAdapter {
 							}
 
 							myPanel.repaint();
+						}
 						
 					}
 				}
