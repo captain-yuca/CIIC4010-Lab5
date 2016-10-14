@@ -38,9 +38,9 @@ public class MyPanel extends JPanel implements ActionListener{
 				colorArray[x][y] = Color.WHITE;
 			}
 		}
-
-
 	}
+
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 

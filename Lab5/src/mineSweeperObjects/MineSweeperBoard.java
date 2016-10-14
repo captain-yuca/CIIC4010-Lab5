@@ -11,6 +11,7 @@ public class MineSweeperBoard {
 	public int yBoardSize;
 	public Random randomGenerator;
 	public int mineQuantity;
+	public int getProxNumber;
 	public static final int MINEBOUNDS = 6;
 
 
@@ -36,11 +37,11 @@ public class MineSweeperBoard {
 			}
 		}
 
-	}
-	public void proximityNumber(int xPosition, int yPosition){ //constructor para sacar los numeros de mimnas cercanas
-		int counterOfMines = 0;											// comienzo sin bombas
+	}//Constructor to get the number of neighbors in all the squares
+	public void proximityNumber(int xPosition, int yPosition){ 
+		int counterOfMines = 0;											
 		for(int i = xPosition - 1 ; i < xPosition + 2; i++){
-			for(int j = yPosition - 1; j < yPosition + 2; j++){      //for loops para recocorrer los 8 vecinos
+			for(int j = yPosition - 1; j < yPosition + 2; j++){     
 
 				if(i == xPosition && j == yPosition){
 					//Do nothing
@@ -62,7 +63,7 @@ public class MineSweeperBoard {
 			}
 		}
 		if(!this.mineSweeperGameBoard[xPosition][yPosition].getObjectColor().equals(Color.BLACK)){
-			this.mineSweeperGameBoard[xPosition][yPosition] = new ProximityNumber(counterOfMines);
+			this.mineSweeperGameBoard[xPosition][yPosition].setProximintyNumber(counterOfMines);
 			System.out.println("Counter of Mines in ("+xPosition+", "+yPosition + ") = "  + counterOfMines);
 		}
 
@@ -84,7 +85,6 @@ public class MineSweeperBoard {
 		}
 		return false;
 	}
-
 
 
 	public void setFlagUp(int xPosition, int yPosition, boolean state) {
@@ -118,6 +118,7 @@ public class MineSweeperBoard {
 			System.out.println("Mine" + i + ": " + (randomXPos) + ", " + (randomYPos));
 			addMineSweeperObjectToBoard(new Mine(), randomXPos, randomYPos);
 			System.out.println(mineSweeperGameBoard[randomXPos][randomYPos]);
+			//System.out.println(" the number of neighborhs of position : (3,3) is :" + this.mineSweeperGameBoard[3][3].getProxNumber() );
 		}
 		for(int x = 0; x < xBoardSize; x++ ){
 			for(int y = 0; y<yBoardSize; y++){
@@ -126,9 +127,6 @@ public class MineSweeperBoard {
 			}
 		}
 	}
-
-
-
 
 	// Method: Makes a new MineSweeperGameBoard
 	public void clearGameBoard() {
@@ -140,9 +138,6 @@ public class MineSweeperBoard {
 
 	}
 
-
-
-
 	public void populateFlagBoard() {
 		for (int i = 0; i < this.xBoardSize; i++) {
 			for (int j = 0; j < this.yBoardSize; j++) {
@@ -150,7 +145,22 @@ public class MineSweeperBoard {
 			}
 		}
 	}
+	//This class has to change the counterOfMines integer number to a string number so then I could use it to print it on the Board
+	public void addStringToBoard(){
+		for (int i = 0; i < this.xBoardSize; i++) {
+			for (int j = 0; j < this.yBoardSize; j++) {
+				String proxNumString =  this.mineSweeperGameBoard[i][j].addStringToBoard();
+				//System.out.println("The number of mines pero coordinates is: ( " " ,+ i " " +j" "  );
+			}
+		}
+	}
+	public void StringAddingToSquares(){
+		for (int i = 0; i < this.xBoardSize; i++) {
+			for (int j = 0; j < this.yBoardSize; j++) {
 
+			}
+		}
+	}	
 	public void restartBoard() {
 		this.clearGameBoard();
 		this.clearFlagBoard();

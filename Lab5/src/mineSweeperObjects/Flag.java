@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class Flag extends MineSweeperObject{
 	public boolean flagUp;
-	Flag(){
+	public Flag(){
 		this.setObjectColor(Color.RED);
 		this.flagUp = false;
 	}
