@@ -6,5 +6,6 @@ public class Mine extends MineSweeperObject {
 
 	Mine(){
 		this.setObjectColor(Color.BLACK);
+		this.setProximityNumber(-1);
 	}
 }
