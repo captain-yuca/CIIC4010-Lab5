@@ -1,6 +1,5 @@
 package main;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -25,7 +24,10 @@ public class MyPanel extends JPanel implements ActionListener{
 	public int mouseDownGridY = 0;
 	public Color[][] colorArray = new Color[TOTAL_COLUMNS][TOTAL_ROWS];
 	public MineSweeperBoard mineSweeperBoard = new MineSweeperBoard(TOTAL_COLUMNS, TOTAL_ROWS); //Constructing a new Game Board
-	public JLabel demoLabel = new JLabel("Hello");
+	public int[] xCounter = new int[TOTAL_COLUMNS*TOTAL_ROWS];
+	public int[] yCounter = new int[TOTAL_COLUMNS*TOTAL_ROWS];;
+	public int numberCounter=0;
+	public JLabel[] innerLabels = new JLabel[TOTAL_COLUMNS*TOTAL_ROWS];
 
 	/*+----------------------------------------------------------------------
 	 ||
@@ -34,6 +36,7 @@ public class MyPanel extends JPanel implements ActionListener{
 	 ||
 	 ||
 	 ++-----------------------------------------------------------------------*/
+
 
 	public MyPanel() {   //This is the constructor... this code runs first to initialize
 		if (INNER_CELL_SIZE + (new Random()).nextInt(1) < 1) {	//Use of "random" to prevent unwanted Eclipse warning
@@ -48,11 +51,11 @@ public class MyPanel extends JPanel implements ActionListener{
 		for (int x = 0; x < TOTAL_COLUMNS; x++) {   //The rest of the grid
 			for (int y = 0; y < TOTAL_ROWS; y++) {
 				colorArray[x][y] = Color.WHITE;
+
 			}
 		}
-		
+		this.setLayout(null);
 	}
-
 	/*+----------------------------------------------------------------------
 	 ||
 	 ||
@@ -60,6 +63,7 @@ public class MyPanel extends JPanel implements ActionListener{
 	 ||
 	 ||
 	 ++-----------------------------------------------------------------------*/
+
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -76,6 +80,8 @@ public class MyPanel extends JPanel implements ActionListener{
 		//Paint the background
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(x1, y1, width + 1, height + 1);
+		//put a string on the panel
+
 
 		//Draw the grid minus the bottom row (which has only one cell)
 		//By default, the grid will be 10x10 (see above: TOTAL_COLUMNS and TOTAL_ROWS) 
@@ -152,13 +158,28 @@ public class MyPanel extends JPanel implements ActionListener{
 
 	//Method: Restarts the whole game
 	public void restartGame(){
-		this.mineSweeperBoard.restartBoard();
 		for (int x = 0; x < TOTAL_COLUMNS; x++) {   //The rest of the grid
 			for (int y = 0; y < TOTAL_ROWS; y++) {
 				this.colorArray[x][y] = Color.WHITE;
 			}
 		}
+//		for (int i = 0;i<=numberCounter; i++ ){
+//			this.remove(this.innerLabels[i]);
+//		}
+		this.removeAll();
+		this.mineSweeperBoard.restartBoard();
+		numberCounter = 0;
 		this.repaint();
+
+	}
+
+	public void paintNumbers(int xPosition, int yPosition){
+		if(this.mineSweeperBoard.mineSweeperGameBoard[xPosition][yPosition].getProximityNumber()>0){
+			this.mineSweeperBoard.mineSweeperGameBoard[xPosition][yPosition].initLabel(xPosition, yPosition);
+			this.add(this.mineSweeperBoard.mineSweeperGameBoard[xPosition][yPosition].proximityLabel);
+			
+		}
+
 
 	}
 
@@ -170,6 +191,7 @@ public class MyPanel extends JPanel implements ActionListener{
 		else{
 			this.mineSweeperBoard.setObjectWasClickToTrue(xPosition, yPosition);
 			this.mineSweeperBoard.raiseClickedCounter();
+			this.paintNumbers(xPosition, yPosition);
 			this.colorArray[xPosition][yPosition] = Color.GRAY;
 			int[] upSquare ={xPosition, yPosition-1};
 			int[] downSquare={xPosition, yPosition+1};
@@ -184,6 +206,7 @@ public class MyPanel extends JPanel implements ActionListener{
 					this.mineSweeperBoard.setObjectWasClickToTrue(upSquare[0], upSquare[1]);
 					this.mineSweeperBoard.raiseClickedCounter();
 					this.colorArray[upSquare[0]][upSquare[1]] = Color.GRAY;
+					this.paintNumbers(upSquare[0],upSquare[1]);
 				}
 			}
 			if(!(downSquare[1]>=mineSweeperBoard.getyBoardSize()) && this.mineSweeperBoard.getProximityNumber(downSquare[0], downSquare[1])!=-1 && !(this.mineSweeperBoard.verifyIfObjectWasClicked(downSquare[0], downSquare[1]))){
@@ -194,6 +217,8 @@ public class MyPanel extends JPanel implements ActionListener{
 					this.mineSweeperBoard.setObjectWasClickToTrue(downSquare[0], downSquare[1]);
 					this.mineSweeperBoard.raiseClickedCounter();
 					this.colorArray[downSquare[0]][downSquare[1]] = Color.GRAY;
+					this.paintNumbers(downSquare[0],downSquare[1]);
+
 				}
 			}
 			if(!(rightSquare[0]>=mineSweeperBoard.getxBoardSize()) && this.mineSweeperBoard.getProximityNumber(rightSquare[0], rightSquare[1])!=-1 && !(this.mineSweeperBoard.verifyIfObjectWasClicked(rightSquare[0], rightSquare[1]))){
@@ -204,6 +229,8 @@ public class MyPanel extends JPanel implements ActionListener{
 					this.mineSweeperBoard.setObjectWasClickToTrue(rightSquare[0], rightSquare[1]);
 					this.mineSweeperBoard.raiseClickedCounter();
 					this.colorArray[rightSquare[0]][rightSquare[1]] = Color.GRAY;
+					this.paintNumbers(rightSquare[0],rightSquare[1]);
+
 				}
 			}
 			if(!(leftSquare[0]<0) && this.mineSweeperBoard.getProximityNumber(leftSquare[0], leftSquare[1])!=-1 && !(this.mineSweeperBoard.verifyIfObjectWasClicked(leftSquare[0], leftSquare[1]))){
@@ -214,11 +241,14 @@ public class MyPanel extends JPanel implements ActionListener{
 					this.mineSweeperBoard.setObjectWasClickToTrue(leftSquare[0], leftSquare[1]);
 					this.mineSweeperBoard.raiseClickedCounter();
 					this.colorArray[leftSquare[0]][leftSquare[1]] = Color.GRAY;
+					this.paintNumbers(leftSquare[0],leftSquare[1]);
+
 				}
 			}
 		}
 
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub

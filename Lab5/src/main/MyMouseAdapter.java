@@ -90,11 +90,18 @@ public class MyMouseAdapter extends MouseAdapter {
 								myPanel.mineSweeperBoard.setGameOver(true);
 								myPanel.repaint();
 							}
+							else if(myPanel.mineSweeperBoard.getProximityNumber(myPanel.mouseDownGridX, myPanel.mouseDownGridY)>0){
+								myPanel.mineSweeperBoard.setObjectWasClickToTrue(myPanel.mouseDownGridX, myPanel.mouseDownGridY);
+								myPanel.mineSweeperBoard.raiseClickedCounter();
+								myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = Color.GRAY;
+								myPanel.paintNumbers(myPanel.mouseDownGridX, myPanel.mouseDownGridY);
+							}
 							else if(!myPanel.mineSweeperBoard.verifyIfObjectWasClicked(myPanel.mouseDownGridX, myPanel.mouseDownGridY)){
 								//myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = Color.GRAY;
 								//myPanel.mineSweeperBoard.setObjectWasClickToTrue(myPanel.mouseDownGridX, myPanel.mouseDownGridY);
 								myPanel.revealSquares(myPanel.mouseDownGridX, myPanel.mouseDownGridY);
 							}
+							
 							if(myPanel.mineSweeperBoard.verifyIfWin()){
 								System.out.println("You win!");
 							}

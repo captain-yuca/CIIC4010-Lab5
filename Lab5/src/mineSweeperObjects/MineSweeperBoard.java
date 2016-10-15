@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class MineSweeperBoard {
 
-	private MineSweeperObject[][] mineSweeperGameBoard; //Array to store game objects
+	public MineSweeperObject[][] mineSweeperGameBoard; //Array to store game objects
 	private Flag[][] flagBoard; //Array to store Red Flags
 	private boolean gameOver; //Determines if game is over
 	private int xBoardSize; //Board size in horizontal direction
@@ -14,6 +14,7 @@ public class MineSweeperBoard {
 	private int mineQuantity; //How many mines in the Board
 	private int clickedCounter; //How many squares have been clicked
 	private static final int MINEBOUNDS = 15; //The maximum amount of Mines that can be displayed in game
+
 
 	/*+----------------------------------------------------------------------
 	 ||
@@ -106,7 +107,6 @@ public class MineSweeperBoard {
 				this.mineSweeperGameBoard[m][n] = new MineSweeperObject();
 			}
 		}
-
 	}
 
 	//Method: Calculates Proximity Number Parameter for the specified MineSweeperObject
@@ -130,7 +130,7 @@ public class MineSweeperBoard {
 					}
 
 					//If it is a Mine, add to the counterOfMines property
-					else if(this.mineSweeperGameBoard[i][j].getObjectColor().equals(Color.BLACK)){
+					else if(this.mineSweeperGameBoard[i][j].getClass() == Mine.class){
 
 						counterOfMines++;
 
@@ -147,8 +147,10 @@ public class MineSweeperBoard {
 			//Assigns the proximity number to the specified MineSweeperObject
 			this.mineSweeperGameBoard[xPosition][yPosition].setProximityNumber(counterOfMines);	
 		}
+
 		else{
 			//Do Nothing
+
 		}
 
 	}
@@ -169,8 +171,6 @@ public class MineSweeperBoard {
 		}
 		return false;
 	}
-	
-	
 
 	// Method: Return Color of the mine that is on the specified position
 	public Color getCurrentObjectColor(int xPosition, int yPosition) {
@@ -188,7 +188,6 @@ public class MineSweeperBoard {
 		do {
 			randomXPos = randomGenerator.nextInt(this.xBoardSize - 1); // so it doesn't go offbounds
 			randomYPos = randomGenerator.nextInt(this.yBoardSize - 1);
-			//System.out.println("Mine" + i + ": " + (randomXPos) + ", " + (randomYPos));
 			if(!(this.mineSweeperGameBoard[randomXPos][randomYPos].getClass() == Mine.class)){
 				addMineSweeperObjectToBoard(new Mine(), randomXPos, randomYPos);
 				i++;
@@ -204,6 +203,7 @@ public class MineSweeperBoard {
 		System.out.println("Quantity of Mines: " + this.mineQuantity);
 		System.out.println("Population Complete");
 	}
+
 	
 	//Method: Adds Flag objects to Flag Board
 		public void populateFlagBoard() {
@@ -213,6 +213,7 @@ public class MineSweeperBoard {
 				}
 			}
 		}
+
 
 	// Method: Makes a new MineSweeperGameBoard
 	public void clearGameBoard() {
